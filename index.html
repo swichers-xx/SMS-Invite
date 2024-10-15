@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SMS Survey App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <script src="https://sdk.twilio.com/js/client/v1.13/twilio.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>SMS Survey App</h1>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <div class="section-header">
+                    Message Template
+                    <button class="button" id="addSegmentBtn">Add Segment</button>
+                </div>
+                <div class="section-content" id="templateBuilder"></div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">Message Preview</div>
+                <div class="section-content">
+                    <div id="messagePreview"></div>
+                    <div id="characterCount"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">CSV Upload</div>
+                <div class="section-content">
+                    <label for="csvUpload" class="file-label">
+                        <i class="fas fa-file-csv"></i> Choose CSV File
+                    </label>
+                    <input type="file" id="csvUpload" accept=".csv" class="file-input">
+                    <div id="csvPreview"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">Image Upload</div>
+                <div class="section-content">
+                    <label for="imageUpload" class="file-label">
+                        <i class="fas fa-image"></i> Choose Image
+                    </label>
+                    <input type="file" id="imageUpload" accept="image/*" class="file-input">
+                    <img id="imagePreview" src="" alt="Image preview" style="display: none;">
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <a href="javascript:void(0);" class="tab-button" id="templateTab" onclick="showTemplate()">
+                <i class="fas fa-pen"></i>
+                Template
+            </a>
+            <a href="javascript:void(0);" class="tab-button" id="uploadTab" onclick="showUpload()">
+                <i class="fas fa-upload"></i>
+                Upload
+            </a>
+            <a href="javascript:void(0);" class="tab-button" id="settingsTab" onclick="showSettings()">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+            <a href="javascript:void(0);" class="tab-button" id="dispatchTab" onclick="showDispatch()">
+                <i class="fas fa-paper-plane"></i>
+                Dispatch
+            </a>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>API Settings</h2>
+            <form id="apiSettingsForm">
+                <input type="text" id="accountSid" name="accountSid" placeholder="Twilio Account SID" class="input-field" required>
+                <input type="password" id="authToken" name="authToken" placeholder="Twilio Auth Token" class="input-field" required>
+                <input type="text" id="twilioNumber" name="twilioNumber" placeholder="Twilio Phone Number" class="input-field" required>
+                <input type="text" id="voxcoApiKey" name="voxcoApiKey" placeholder="Voxco API Key" class="input-field" required>
+                <input type="text" id="voxcoSurveyId" name="voxcoSurveyId" placeholder="Voxco Survey ID" class="input-field" required>
+                <button type="submit" class="button">Save Settings</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="dispatchModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Dispatch Message</h2>
+            <div id="contactInfo"></div>
+            <div id="conversation"></div>
+            <h3>Generated Message:</h3>
+            <div id="dispatchPreview"></div>
+            <img id="dispatchImagePreview" src="" alt="Image to be sent" style="display: none; max-width: 100%; margin-top: 10px;">
+            <button id="sendButton" class="button">Send</button>
+            <button id="newButton" class="button">New</button>
+        </div>
+    </div>
+
+    <div id="notification"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
